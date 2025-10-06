@@ -1,6 +1,6 @@
 import { Node } from "./Node.js";
 
-class Hashmap {
+export class Hashmap {
   constructor(loadfactor = 0.75, capacity = 16) {
     this.loadfactor = loadfactor;
     this.capacity = capacity;
@@ -77,63 +77,65 @@ class Hashmap {
           return true;
         }
       }
-    } 
+    }
   }
 
   remove(key) {
-    const targetkey = this.hash(key)
-    for (let i = 0 ; i < this.bucket.length ; i++) {
+    const targetkey = this.hash(key);
+    for (let i = 0; i < this.bucket.length; i++) {
       if (this.bucket[i] !== null) {
         if (this.hash(this.bucket[i][0]) === targetkey) {
-          this.bucket[i] = null
+          this.bucket[i] = null;
         }
       }
     }
   }
 
   length() {
-    let Counter = 0
-    for (let i = 0 ; i < this.bucket.length ; i++) {
+    let Counter = 0;
+    for (let i = 0; i < this.bucket.length; i++) {
       if (this.bucket[i] !== null) {
-        Counter ++
+        Counter++;
       }
     }
-    return Counter
+    return Counter;
   }
 
   clear() {
-    this.bucket = []
+    this.bucket = [];
   }
 
   keys() {
-    const Allkeys = []
-    for (let i = 0 ; i < this.bucket.length ; i++) {
+    const Allkeys = [];
+    for (let i = 0; i < this.bucket.length; i++) {
       if (this.bucket[i] !== null) {
-        Allkeys.push(this.bucket[i][0])
+        Allkeys.push(this.bucket[i][0]);
       }
     }
-    return Allkeys
+    return Allkeys;
   }
 
   values() {
-    
+    const AllValues = [];
+    for (let i = 0; i < this.bucket.length; i++) {
+      if (this.bucket[i] !== null) {
+        const ValueNode = this.bucket[i][1];
+        AllValues.push(ValueNode.value);
+        if (ValueNode.nextnode !== null) {
+          let Current = ValueNode.nextnode;
+          AllValues.push(Current.value);
+        }
+      }
+    }
+    return AllValues;
+  }
+  entries() {
+    const AllEntry = [];
+    for (let i = 0; i < this.bucket.length; i++) {
+      if (this.bucket[i] !== null) {
+        AllEntry.push([this.bucket[i][0], this.bucket[i][1]]);
+      }
+    }
+    return AllEntry;
   }
 }
-
-const newhashmap = new Hashmap();
-
-newhashmap.set("apple", "red");
-newhashmap.set("banana", "yellow");
-newhashmap.set("carrot", "orange");
-newhashmap.set("dog", "brown");
-newhashmap.set("elephant", "gray");
-newhashmap.set("frog", "green");
-newhashmap.set("grape", "purple");
-newhashmap.set("hat", "black");
-newhashmap.set("ice cream", "white");
-newhashmap.set("jacket", "blue");
-newhashmap.set("kite", "pink");
-newhashmap.set("lion", "golden");
-
-console.log(newhashmap.keys())
-
